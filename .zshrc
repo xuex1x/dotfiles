@@ -186,10 +186,14 @@ alias '%'=' '
 
 aliases[=]='noglob arith-eval'
 
-alias ls="${aliases[ls]:-ls} -A"
-if [[ -n $commands[dircolors] && ${${:-ls}:c:A:t} != busybox* ]]; then
+# alias ls="${aliases[ls]:-ls} -A"
+if [[ -n $commands[dircolors] && ${${:-ls}:c:t} != busybox* ]]; then
   alias ls="${aliases[ls]:-ls} --group-directories-first"
 fi
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -l'
 
 function grep_no_cr() {
   emulate -L zsh -o pipe_fail
@@ -258,7 +262,4 @@ z4h compile -- $ZDOTDIR/{.zshenv,.zprofile,.zshrc,.zlogin,.zlogout}
 
 
 export PATH="$HOME/.local/bin:$PATH"
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -l'
+
