@@ -260,6 +260,12 @@ POSTEDIT=$'\n\n\e[2A'
 z4h source -c -- $ZDOTDIR/.zshrc-private
 z4h compile -- $ZDOTDIR/{.zshenv,.zprofile,.zshrc,.zlogin,.zlogout}
 
-
 export PATH="$HOME/.local/bin:$PATH"
+
+alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+# * ~/.extra can be used for other settings you don’t want to commit.
+if [ -f ~/.extra ]; then
+    . ~/.extra
+fi
 
