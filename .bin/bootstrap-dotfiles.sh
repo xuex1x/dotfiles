@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xueEo pipefail
+# set -xueEo pipefail
 #
 # Clone the dotfiles repository as a bare repo.
 # A bare repository stores the git history but doesn't have a working tree,
