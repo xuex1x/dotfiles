@@ -63,6 +63,7 @@ function install_packages() {
     zip
     zsh
     tmux
+    vim
     )
 
     if (( WSL )); then
