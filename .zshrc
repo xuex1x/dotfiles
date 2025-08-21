@@ -263,6 +263,7 @@ z4h compile -- $ZDOTDIR/{.zshenv,.zprofile,.zshrc,.zlogin,.zlogout}
 export PATH="$HOME/.local/bin:$PATH"
 
 alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+bindkey '^F' forward-word
 
 # * ~/.extra can be used for other settings you don’t want to commit.
 if [ -f ~/.extra ]; then
