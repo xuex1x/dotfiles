@@ -165,7 +165,7 @@ setopt ignore_eof
 
 if (( $+functions[toggle-dotfiles] )); then
   zle -N toggle-dotfiles
-  z4h bindkey toggle-dotfiles Ctrl+P
+  z4h bindkey toggle-dotfiles Ctrl+T
 fi
 
 zstyle ':z4h:fzf-dir-history'                fzf-bindings       tab:repeat
@@ -264,6 +264,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 bindkey '^F' forward-word
+bindkey '^P' up-line-or-history
 
 # * ~/.extra can be used for other settings you don’t want to commit.
 if [ -f ~/.extra ]; then
