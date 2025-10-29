@@ -17,16 +17,16 @@ function install_packages() {
     apt-transport-https
     autoconf
     bc
-    bfs
-    bsdutils
+    # bfs
+    # bsdutils
     bzip2
     build-essential
     ca-certificates
     clang-format
     cmake
-    command-not-found
+    # command-not-found
     curl
-    dconf-cli
+    # dconf-cli
     dos2unix
     g++
     gawk
@@ -36,17 +36,17 @@ function install_packages() {
     htop
     # jsonnet
     jq
-    lftp
+    # lftp
     # libglpk-dev
     # libncurses-dev
     # libxml2-utils
     man
-    moreutils
-    # openssh-server
-    p7zip-full
+    # moreutils
+    openssh-server
+    # p7zip-full
     # p7zip-rar
-    perl
-    poppler-utils
+    # perl
+    # poppler-utils
     python3
     python3-pip
     pigz
@@ -355,19 +355,19 @@ function install_locale() {
 }
 
 function setup_tmux() {
-    info "Setting up tmux..."
+    printf "Setting up tmux..."
     if ! command -v tmux &> /dev/null; then
-        warn "tmux is not installed. Please install it first, e.g., 'sudo apt install tmux' or 'brew install tmux'."
+        printf "\033[33mtmux is not installed. Please install it first, e.g., 'sudo apt install tmux' or 'brew install tmux'.\033[0m"
         return 0 # Not a fatal error, just skip
     fi
 
     local TPM_DIR="$HOME/.tmux/plugins/tpm"
     if [ -d "$TPM_DIR" ]; then
-        info "Tmux Plugin Manager (TPM) is already installed."
+        printf "Tmux Plugin Manager (TPM) is already installed."
     else
-        info "Installing Tmux Plugin Manager (TPM)..."
+        printf "Installing Tmux Plugin Manager (TPM)..."
         if ! git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"; then
-            error "Failed to clone TPM repository."
+            printf "\033[31mFailed to clone TPM repository.\033[0m"
         fi
     fi
     
@@ -375,9 +375,9 @@ function setup_tmux() {
     local TMUX_CONF="$HOME/.tmux.conf"
     local TPM_RUN_LINE="run '~/.tmux/plugins/tpm/tpm'"
     if [ -f "$TMUX_CONF" ] && grep -q "$TPM_RUN_LINE" "$TMUX_CONF"; then
-        info "tmux config ($TMUX_CONF) already seems to be configured for TPM."
+        printf "tmux config ($TMUX_CONF) already seems to be configured for TPM."
     else
-        warn "$TMUX_CONF is missing or not configured for TPM. Appending default TPM config."
+        printf "\033[33m$TMUX_CONF is missing or not configured for TPM. Appending default TPM config.\033[0m"
         # Appending ensures we don't overwrite a user's existing partial config.
         cat << EOF >> "$TMUX_CONF"
 
@@ -392,27 +392,27 @@ $TPM_RUN_LINE
 EOF
     fi
 
-    info "Tmux setup complete. Start tmux and press 'Prefix + I' to install plugins."
+    printf "\033[32mTmux setup complete.\033[0m Start tmux and press \033[32m'Prefix + I'\033[0m to install plugins."
 }
 
 function install_neovim() {
-    info "Checking and installing Neovim..."
+    printf "Checking and installing Neovim..."
 
     if command -v nvim &> /dev/null; then
         # ... (version check logic remains the same) ...
         local version_str=$(nvim --version | head -n 1 | cut -d ' ' -f 2)
         if [[ "$(printf '%s\n' "v0.9.0" "${version_str}" | sort -V | head -n 1)" == "v0.9.0" ]]; then
-              info "Neovim is already installed and meets the version requirement: $version_str"
+              printf "Neovim is already installed and meets the version requirement: $version_str"
               return 0
         fi
     fi
 
-    warn "Neovim not found. Attempting to install the latest stable version..."
+    printf "\033[33m[Warnning]\033[0m Neovim not found. Attempting to install the latest stable version..."
     if [[ "$(uname)" == "Darwin" ]]; then
         # ... (macOS logic remains the same) ...
-        if ! command -v brew &> /dev/null; then error "Homebrew not found..."; fi
-        info "Using Homebrew to install Neovim on macOS..."
-        if ! brew install neovim; then error "Failed to install Neovim via Homebrew."; fi
+        if ! command -v brew &> /dev/null; then printf "\033[33m[Warnning]\033[0m Homebrew not found..."; fi
+        printf "Using Homebrew to install Neovim on macOS..."
+        if ! brew install neovim; then printf "\033[31mFailed to install Neovim via Homebrew.\033[0m"; fi
 
     elif [[ "$(uname)" == "Linux" ]]; then
         # --- Linux Installation with a robust PATH handling ---
@@ -420,9 +420,9 @@ function install_neovim() {
         local NVIM_APPIMAGE_PATH="$NVIM_INSTALL_DIR/nvim"
         mkdir -p "$NVIM_INSTALL_DIR"
 
-        info "Downloading the latest Neovim AppImage to $NVIM_APPIMAGE_PATH..."
+        printf "Downloading the latest Neovim AppImage to $NVIM_APPIMAGE_PATH..."
         if ! curl -fLo "$NVIM_APPIMAGE_PATH" "https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage"; then
-            error "Failed to download Neovim AppImage.Please check your network or the URL."
+            printf "\033[31mFailed to download Neovim AppImage.Please check your network or the URL.\033[0m"
         fi
         chmod u+x "$NVIM_APPIMAGE_PATH"
 
@@ -431,7 +431,7 @@ function install_neovim() {
         # 1. IMMEDIATE FIX: Update PATH for the CURRENT script execution.
         # This ensures the verification step below will pass.
         if [[ ":$PATH:" != *":$NVIM_INSTALL_DIR:"* ]]; then
-            info "Adding '$NVIM_INSTALL_DIR' to PATH for the current session."
+            printf "\033[32mAdding '$NVIM_INSTALL_DIR' to PATH for the current session.\033[0m"
             export PATH="$NVIM_INSTALL_DIR:$PATH"
         fi
 
@@ -449,41 +449,41 @@ function install_neovim() {
             # Add to config file only if the line doesn't already exist
             local path_export_line="export PATH=\"\$HOME/.local/bin:\$PATH\""
             if ! grep -qF "$path_export_line" "$shell_config_file"; then
-                info "Adding PATH update to $shell_config_file for future sessions..."
+                printf "Adding PATH update to $shell_config_file for future sessions..."
                 echo -e "\n# Add ~/.local/bin to PATH for locally installed tools\n$path_export_line" >> "$shell_config_file"
             else
-                info "PATH configuration already exists in $shell_config_file."
+                printf "PATH configuration already exists in $shell_config_file."
             fi
         else
             # Fallback warning if shell config is not found
-            warn "Could not automatically update your shell config. Please manually add '$NVIM_INSTALL_DIR' to your PATH."
+            printf "\033[33mCould not automatically update your shell config. Please manually add '$NVIM_INSTALL_DIR' to your PATH.\033[0m"
         fi
         # --- ELEGANT SOLUTION ENDS HERE ---
 
     else
-        error "Unsupported OS: $(uname). Please install Neovim manually."
+        printf "\033[33mUnsupported OS: $(uname). Please install Neovim manually.\033[0m"
     fi
 
     # Verify installation - this will now succeed thanks to the immediate PATH export
     if ! command -v nvim &> /dev/null; then
-        error "Neovim installation failed. The 'nvim' command is still not available."
+        printf "\033[31mNeovim installation failed. The 'nvim' command is still not available.\033[0m"
     fi
 
-    info "Neovim installed successfully: $(nvim --version | head -n 1)"
+    printf "\033[32mNeovim installed successfully: $(nvim --version | head -n 1) \033[0m"
     return 0
 }
 
 function setup_lazyvim() {
-    info "Setting up LazyVim..."
+    printf "Setting up LazyVim..."
 
     # --- Dependency Check ---
     if ! command -v nvim &> /dev/null; then
-        error "Neovim is not installed. Please run the Neovim installer first."
+        printf "\033[31mNeovim is not installed. Please run the Neovim installer first.\033[0m"
     fi
     if ! command -v git &> /dev/null; then
-        error "Git is not installed. It is required to install LazyVim."
+        printf "\033[31mGit is not installed. It is required to install LazyVim.\033[0m"
     fi
-    info "Dependencies met (Neovim and Git are installed)."
+    printf "\033[32mDependencies met (Neovim and Git are installed).\033[0m"
 
     # --- Backup and Install Logic ---
     local NVIM_CONFIG_DIR="$HOME/.config/nvim"
@@ -492,66 +492,52 @@ function setup_lazyvim() {
     if [ -d "$NVIM_CONFIG_DIR" ]; then
         # If it's already a LazyVim setup, we are done.
         if [ -f "$NVIM_CONFIG_DIR/lazy-lock.json" ]; then
-            info "LazyVim configuration already exists at $NVIM_CONFIG_DIR. No action needed."
+            printf "LazyVim configuration already exists at $NVIM_CONFIG_DIR. No action needed."
             return 0
         fi
         
         # If it's some other config, back it up.
         local backup_dir="${NVIM_CONFIG_DIR}.bak.$(date +%Y%m%d-%H%M%S)"
-        warn "Existing Neovim configuration found at $NVIM_CONFIG_DIR."
-        info "Backing it up to $backup_dir"
+        printf "\033[33mExisting Neovim configuration found at $NVIM_CONFIG_DIR.\033[0m"
+        printf "Backing it up to $backup_dir"
         if ! mv "$NVIM_CONFIG_DIR" "$backup_dir"; then
-            error "Failed to back up existing Neovim configuration."
+            printf "\033[31mFailed to back up existing Neovim configuration.\033[0m"
         fi
     fi
 
     # Clone the LazyVim starter template
-    info "Cloning the LazyVim starter template..."
+    printf "Cloning the LazyVim starter template..."
     if ! git clone https://github.com/LazyVim/starter "$NVIM_CONFIG_DIR"; then
-        error "Failed to clone LazyVim starter repository."
+        printf "\033[31mFailed to clone LazyVim starter repository.\033[0m"
     fi
     # Remove the .git directory so the user can initialize their own git repo for their config
     rm -rf "$NVIM_CONFIG_DIR/.git"
-    info "LazyVim starter template installed successfully."
+    printf "LazyVim starter template installed successfully."
     
     # Optional but highly recommended: back up existing data/state directories
     # to provide a completely fresh start for LazyVim.
     for dir_to_backup in "$HOME/.local/share/nvim" "$HOME/.local/state/nvim" "$HOME/.cache/nvim"; do
         if [ -d "$dir_to_backup" ]; then
               local backup_data_dir="${dir_to_backup}.bak.$(date +%Y%m%d-%H%M%S)"
-              info "Backing up existing Neovim data directory '$dir_to_backup' to '$backup_data_dir'"
+              printf "Backing up existing Neovim data directory '$dir_to_backup' to '$backup_data_dir'"
               mv "$dir_to_backup" "$backup_data_dir"
         fi
     done
 
     echo ""
-    info "--- LazyVim Setup Complete ---"
-    info "Next time you run 'nvim', LazyVim will bootstrap and install all plugins."
+    printf "--- LazyVim Setup Complete ---"
+    printf "Next time you run 'nvim', LazyVim will bootstrap and install all plugins."
     return 0
 }
 
-info() {
-    echo -e "\033[32m[INFO]\033[0m $1"
-}
-
-warn() {
-    echo -e "\033[33m[WARN]\033[0m $1"
-}
-
-error() {
-    echo -e "\033[31m[ERROR]\033[0m $1" >&2 # Print errors to stderr
-    exit 1
-}
-
 if [[ "$(id -u)" == 0 ]]; then
-  echo "$BASH_SOURCE: please run as non-root" >&2
+  printf "\033[33m$BASH_SOURCE: please run as non-root\033[0m" >&2
   exit 1
 fi
 
 umask g-w,o-w
 
 add_to_sudoers
-
 install_packages
 install_locale
 # install_docker
@@ -568,11 +554,9 @@ install_fx
 # install_bw
 # install_websocat
 install_fonts
-
 patch_ssh
 enable_sshd
 disable_motd_news
-
 fix_locale
 fix_clock
 fix_shm
@@ -582,4 +566,4 @@ install_neovim
 setup_lazyvim
 # set_preferences
 
-info "Done, setup success!"
+printf "\033[32mDone, setup success! \033[0m"
