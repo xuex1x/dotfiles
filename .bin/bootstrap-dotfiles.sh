@@ -20,10 +20,10 @@ has_backed_up=false
 dot ls-tree -r main --name-only | while read -r file; do
   if [ -e "$HOME/$file" ]; then
     if ! $has_backed_up; then
-      echo "Found conflicting files. Moving them to .dotfiles-backup/"
+      printf "\033[33mFound conflicting files. Moving them to .dotfiles-backup\033[0m"
       has_backed_up=true
     fi
-    echo "  -> Backing up $file"
+    printf "\033[32m  -> Backing up $file\033[0m"
     # Ensure the parent directory exists in the backup folder to support nested files
     mkdir -p ".dotfiles-backup/$(dirname "$file")"
     mv "$HOME/$file" ".dotfiles-backup/$file"
@@ -36,13 +36,13 @@ dot checkout
 
 # Final check to ensure the checkout was successful.
 if [ $? = 0 ]; then
-  echo "Checked out dotfiles successfully.";
+  printf "\033[32mChecked out dotfiles successfully.\033[0m"
 else
   # If checkout still fails here, there's a more serious problem.
-  echo "Failed to checkout dotfiles. Please check for issues."
+  printf "\033[31mFailed to checkout dotfiles. Please check for issues.\033[0m"
   exit 1
 fi
 
 # Configure git to not show untracked files in `git status`.
 dot config status.showUntrackedFiles no
-echo "Setup complete! Dotfiles now managed by dot."
+printf "\033[32mSetup complete! Dotfiles now managed by dot.\033[0m"
