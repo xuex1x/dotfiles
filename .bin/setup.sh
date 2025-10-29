@@ -69,11 +69,11 @@ function install_packages() {
     if (( WSL )); then
     packages+=(dbus-x11)
     else
-    packages+=(gnome-tweak-tool imagemagick iotop tilix remmina wireguard docker.io)
+    packages+=(iotop docker.io)
     fi
 
     sudo apt-get update
-    sudo bash -c 'DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::options::=--force-confdef -o DPkg::options::=--force-confold upgrade -y'
+    # sudo bash -c 'DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::options::=--force-confdef -o DPkg::options::=--force-confold upgrade -y'
     sudo apt-get install -y "${packages[@]}"
     sudo apt-get autoremove -y
     sudo apt-get autoclean
@@ -557,7 +557,7 @@ install_locale
 # install_docker
 # install_brew
 # install_b2
-install_vscode
+# install_vscode
 install_ripgrep
 # install_jc
 install_bat
@@ -582,4 +582,4 @@ install_neovim
 setup_lazyvim
 # set_preferences
 
-echo SUCCESS
+info "Done, setup success!"
