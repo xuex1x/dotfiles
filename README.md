@@ -101,7 +101,7 @@ dot remote add origin <remote-url>
 dot push -u origin main
 ```
 
-## Deploy from Scratch
+## Deploy from Scratch on Windows
 
 Assuming your primary workstation is a Windows PC, you may follow the instructions to deploy your dotfiles on WSL from scratch. 
 
