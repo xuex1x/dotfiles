@@ -31,12 +31,12 @@ dot ls-tree -r main --name-only | while read -r file; do
 done
 
 # Now that all conflicting files have been moved, we can safely perform the checkout.
-echo "Checking out dotfiles from the bare repository..."
+printf "Checking out dotfiles from the bare repository...\n"
 dot checkout
 
 # Final check to ensure the checkout was successful.
 if [ $? = 0 ]; then
-  printf "\033[32mChecked out dotfiles successfully.\033[0m\n"
+  printf "Checked out dotfiles successfully.\n"
 else
   # If checkout still fails here, there's a more serious problem.
   printf "\033[31mFailed to checkout dotfiles. Please check the fail infomation.\033[0m\n"
@@ -45,4 +45,4 @@ fi
 
 # Configure git to not show untracked files in `git status`.
 dot config status.showUntrackedFiles no
-printf "\033[32mSetup complete! Dotfiles now managed by dot.\033[0m\n"
+printf "\033[32mSetup complete! \033[0mDotfiles now managed by \033[32mdot\033[0m.\n"
