@@ -525,8 +525,8 @@ function setup_lazyvim() {
     done
 
     echo ""
-    printf "--- LazyVim Setup Complete ---\n"
-    printf "Next time you run 'nvim', LazyVim will bootstrap and install all plugins.\n"
+    printf "\033[32mLazyVim Setup Complete.\033[0m\n"
+    printf "\033[32mNext time you run 'nvim', LazyVim will bootstrap and install all plugins.\033[0m\n"
     return 0
 }
 
