@@ -21,7 +21,7 @@ curl -Lks https://raw.githubusercontent.com/xuex1x/dotfiles/refs/heads/main/.bin
 
 To initilazition more (git, tmux, neovim, lazyvim, zsh/z4h, )
 ```bash
-source ~/.bashrc && bash ~/.bin/init.sh
+source ~/.bashrc && bash ~/.bin/setup.sh
 ```
 
 ### Onekey deploy bootstrap script
@@ -29,7 +29,7 @@ source ~/.bashrc && bash ~/.bin/init.sh
 Init config by running:
 ```bash
 GITHUB_USERNAME=xuex1x bash -c \
-"$(curl -fsSL https://raw.githubusercontent.com/dotfiles/refs/heads/main/.bin/bootstrap-all.sh)"
+"$(curl -fsSL https://raw.githubusercontent.com/dotfiles/refs/heads/main/.bin/bootstrap.sh)"
 ```
 
 ### Git-free install
