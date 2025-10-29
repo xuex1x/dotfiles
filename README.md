@@ -17,11 +17,15 @@ Requirements:
 Clone and install config tracking in your $HOME by running:
 ```bash
 curl -Lks https://raw.githubusercontent.com/xuex1x/dotfiles/refs/heads/main/.bin/bootstrap-dotfiles.sh | /bin/bash
-```
 
-To initilazition more (git, tmux, neovim, lazyvim, zsh/z4h, )
-```bash
+# To initilazition more (zsh, z4h, git, tmux, neovim, lazyvim... )
 source ~/.bashrc && bash ~/.bin/setup.sh
+Z4H_BOOTSTRAPPING=1 . ~/.zshenv
+
+# Select SSH login to bash or zsh
+ssh user@host                # Login to default bash
+ssh -t user@host zsh         # Connects to the remote host and runs zsh in interactive mode, but not as a login shell.
+ssh -t user@host -- zsh -l   # Connects to the remote host and runs zsh as a login shell.
 ```
 
 ### Onekey deploy bootstrap script
