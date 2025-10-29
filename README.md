@@ -33,7 +33,7 @@ ssh -t user@host -- zsh -l   # Connects to the remote host and runs zsh as a log
 Init config by running:
 ```bash
 GITHUB_USERNAME=xuex1x bash -c \
-"$(curl -fsSL https://raw.githubusercontent.com/dotfiles/refs/heads/main/.bin/bootstrap.sh)"
+"$(curl -fsSL https://raw.githubusercontent.com/xuex1x/dotfiles/refs/heads/main/.bin/bootstrap.sh)"
 ```
 
 ### Git-free install
