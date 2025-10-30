@@ -186,15 +186,6 @@ alias '%'=' '
 
 aliases[=]='noglob arith-eval'
 
-# alias ls="${aliases[ls]:-ls} -A"
-if [[ -n $commands[dircolors] && ${${:-ls}:c:t} != busybox* ]]; then
-  alias ls="${aliases[ls]:-ls} --group-directories-first"
-fi
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -l'
-
 function grep_no_cr() {
   emulate -L zsh -o pipe_fail
   local -a tty base=(grep)
@@ -214,7 +205,40 @@ alias grep=grep_no_cr
 (( $+commands[tree]  )) && alias tree='tree -a -I .git --dirsfirst'
 (( $+commands[gedit] )) && alias gedit='gedit &>/dev/null'
 (( $+commands[rsync] )) && alias rsync='rsync -rz --info=FLIST,COPY,DEL,REMOVE,SKIP,SYMSAFE,MISC,NAME,PROGRESS,STATS'
-(( $+commands[exa]   )) && alias exa='exa -ga --group-directories-first --time-style=long-iso --color-scale'
+
+if (( $+commands[exa] )); then
+  alias l1='exa -1 --group-directories-first --color=auto'
+  alias ls='exa --group-directories-first --color=auto'
+  alias ll='exa -la --group-directories-first --color=auto'
+  alias la='exa -a --group-directories-first --color=auto'
+  alias l='exa -l --group-directories-first --color=auto'
+  alias lt='exa -T --group-directories-first --color=auto'
+  alias lg='exa -la --git --group-directories-first --color=auto'
+else
+  if ls --version > /dev/null 2>&1; then
+    alias ls='ls --color=auto --group-directories-first'
+    alias ll='ls -alF --color=auto --group-directories-first'
+    alias la='ls -A --color=auto --group-directories-first'
+    alias l='ls -lh --color=auto --group-directories-first'
+  else
+    # BSD/macOS 的 ls：没有 --color=auto，用 -G；也没有 --group-directories-first
+    alias ls='ls -G'
+    alias ll='ls -lG'
+    alias la='ls -laG'
+    alias l='ls -lhG'
+  fi
+
+  # 树形视图回退：若有 tree 命令就用，否则 lt 退化为长列表
+  if (( $+commands[tree] )); then
+    alias lt='tree -C'
+  else
+    alias lt='ls -l'
+  fi
+
+  # 没有 exa/eza 时，lg（git 状态列表）退化为普通长列表
+  alias lg='ll'
+fi
+
 
 if [[ -v commands[xclip] && -n $DISPLAY ]]; then
   function x() xclip -selection clipboard -in
