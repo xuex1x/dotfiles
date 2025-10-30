@@ -558,7 +558,7 @@ patch_ssh
 enable_sshd
 disable_motd_news
 fix_locale
-fix_clock
+# fix_clock
 fix_shm
 fix_dbus
 setup_tmux
