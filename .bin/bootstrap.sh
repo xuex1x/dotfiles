@@ -72,7 +72,6 @@ else
     echo "File /etc/os-release not exists."
 fi
 
-
 tmpdir="$(mktemp -d)"
 GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" \
   git clone --depth=1 https://github.com/xuex1x/dotfiles.git "$tmpdir"
