@@ -124,7 +124,7 @@ function install_exa() {
     local tmp
     tmp="$(mktemp -d)"
     pushd -- "$tmp"
-    curl -fsSLO "https://github.com/ogham/exa/releases/download/v${v}/exa-linux-x86_64-${v}.zip"
+    curl -fsSLO "https://github.com/ogham/exa/releases/download/v${v}/exa-linux-x86_64-v${v}.zip"
     unzip exa-linux-x86_64-${v}.zip
     sudo install -DT ./exa-linux-x86_64 /usr/local/bin/exa
     popd
