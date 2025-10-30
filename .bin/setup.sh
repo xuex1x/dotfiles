@@ -566,4 +566,6 @@ install_neovim
 setup_lazyvim
 # set_preferences
 
-printf "\033[32mDone, setup success! \033[0m\n"
+printf "\033[32mDone, package setup success! \033[0m\n"
+
+Z4H_BOOTSTRAPPING=1 . ~/.zshenv
