@@ -119,7 +119,7 @@ function install_vscode() {
 }
 
 function install_exa() {
-    local v="0.9.0"
+    local v="0.10.1"
     ! command -v exa &>/dev/null || [[ "$(exa --version)" != *" v$v" ]] || return 0
     local tmp
     tmp="$(mktemp -d)"
@@ -132,7 +132,7 @@ function install_exa() {
 }
 
 function install_ripgrep() {
-    local v="14.1.1"
+    local v="15.1.0"
     ! command -v rg &>/dev/null || [[ "$(rg --version)" != *" $v "* ]] || return 0
     local deb
     deb="$(mktemp)"
@@ -152,7 +152,7 @@ function install_jc() {
 }
 
 function install_bat() {
-    local v="0.18.0"
+    local v="0.26.0"
     ! command -v bat &>/dev/null || [[ "$(bat --version)" != *" $v" ]] || return 0
     local deb
     deb="$(mktemp)"
@@ -162,7 +162,7 @@ function install_bat() {
 }
 
 function install_gh() {
-    local v="2.12.1"
+    local v="2.82.1"
     ! command -v gh &>/dev/null || [[ "$(gh --version)" != */v"$v" ]] || return 0
     local deb
     deb="$(mktemp)"
@@ -172,7 +172,7 @@ function install_gh() {
 }
 
 function install_fx() {
-    local v="31.0.0"
+    local v="39.1.0"
     ! command -v fx &>/dev/null || [[ "$(fx --version)" != "$v" ]] || return 0
     local tmp
     tmp="$(mktemp -- ~/.bin/fx.XXXXXX)"
