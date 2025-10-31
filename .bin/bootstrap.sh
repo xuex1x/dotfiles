@@ -62,7 +62,7 @@ if [ -f /etc/os-release ]; then
         sudo apt-get autoclean
 
         sudo apt-get install -y curl git zsh tmux
-        # sudo chsh -s /bin/zsh "$USER"
+        sudo chsh -s /bin/zsh "$USER"
     elif [[ "$ID" == "fedora" || "$ID_LIKE" == "fedora" || "$ID" == "centos" || "$ID" == "rhel" ]]; then
         echo "Not support for Fedora/Red Hat"
     else
@@ -88,6 +88,7 @@ bash ~/.bin/setup.sh
 # fi
 
 Z4H_BOOTSTRAPPING=1 . ~/.zshenv
+sudo chsh -s /bin/bash "$USER"
 
 if [[ -t 0 && -n "${WSL_DISTRO_NAME-}" ]]; then
   read -p "Need to restart WSL to complete installation. Terminate WSL now? [y/N] " -n 1 -r
