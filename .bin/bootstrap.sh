@@ -87,7 +87,8 @@ bash ~/.bin/setup.sh
 #   zsh ~/bin/bootstrap-machine-private.zsh
 # fi
 
-Z4H_BOOTSTRAPPING=1 . ~/.zshenv
+# Z4H_BOOTSTRAPPING=1 . ~/.zshenv
+zsh -fc 'source ~/.zshenv'
 sudo chsh -s /bin/bash "$USER"
 
 if [[ -t 0 && -n "${WSL_DISTRO_NAME-}" ]]; then
