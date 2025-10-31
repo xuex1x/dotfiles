@@ -87,6 +87,8 @@ bash ~/.bin/setup.sh
 #   zsh ~/bin/bootstrap-machine-private.zsh
 # fi
 
+Z4H_BOOTSTRAPPING=1 . ~/.zshenv
+
 if [[ -t 0 && -n "${WSL_DISTRO_NAME-}" ]]; then
   read -p "Need to restart WSL to complete installation. Terminate WSL now? [y/N] " -n 1 -r
   echo
