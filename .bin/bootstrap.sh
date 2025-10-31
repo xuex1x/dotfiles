@@ -62,7 +62,7 @@ if [ -f /etc/os-release ]; then
         sudo apt-get autoclean
 
         sudo apt-get install -y curl git zsh tmux
-        sudo chsh -s /bin/zsh "$USER"
+        # sudo chsh -s /bin/zsh "$USER"
     elif [[ "$ID" == "fedora" || "$ID_LIKE" == "fedora" || "$ID" == "centos" || "$ID" == "rhel" ]]; then
         echo "Not support for Fedora/Red Hat"
     else
